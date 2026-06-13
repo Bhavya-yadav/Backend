@@ -1,0 +1,8 @@
+{
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell"
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell"
+}
