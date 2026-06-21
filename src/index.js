@@ -1,3 +1,6 @@
+// Using Try Catch block to handle errors 
+// connecting to MongoDB and starting the server.
+
 // import mongoose from "mongoose";
 // import { DB_NAME } from "./constants";
 
@@ -18,13 +21,15 @@
 // })();
 
 import dotenv from "dotenv";
-
+import { app } from "./app.js";
 import connectDB from "./db/index.js";
 
+// Load environment values before starting the server.
 dotenv.config({
     path : ".env",
 });
 
+// Connect to MongoDB, then start the app.
 connectDB()
 .then(
     app.listen(process.env.PORT || 4000, () => {
