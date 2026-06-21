@@ -1,8 +1,8 @@
 // Wrap async route handlers and forward errors to middleware.
 const asyncHandler = (requestHandler) => {
-    (req, res, next) => {
+    return (req, res, next) => {
         Promise.resolve(requestHandler(req, res, next))
-        .catch( err => next(err))
+            .catch((err) => next(err))
     }
 }
 
@@ -18,5 +18,5 @@ export {asyncHandler}
 //             success : false,
 //             message : err.message
 //         })
-//     }
+//     } 
 // }

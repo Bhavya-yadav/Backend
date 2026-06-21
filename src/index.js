@@ -31,18 +31,18 @@ dotenv.config({
 
 // Connect to MongoDB, then start the app.
 connectDB()
-.then(
-    app.listen(process.env.PORT || 4000, () => {
+.then(() => {
+    const port = process.env.PORT || 4000;
 
-        console.log(`Server is running on port 
-            ${process.env.PORT || 4000}`);
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
 
         app.on("error", (error) => {
             console.log("Error connecting to MongoDB: ", error);
             throw error; 
         })
     })
-) 
+})
 .catch((error) => {
     console.log("Error connecting to MongoDB: ", error);
 });
