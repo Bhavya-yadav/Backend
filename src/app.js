@@ -19,10 +19,18 @@ app.use(cookieParser())
 // Import and use the user routes.
 import userRouter from "./routes/user.routes.js";
 
+// Health check endpoint
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Server is running",
+        timestamp: new Date().toISOString()
+    });
+});
+
 // Use the user routes for both singular and plural base paths.
 app.use("/api/v1/user" , userRouter);
-app.use("/api/v1/users" , userRouter);
-
-// http://localhost:8000/api/v1/user/register
+// http://localhost:5000/api/v1/user/register
+// http://localhost:5000/health
 
 export { app }; 

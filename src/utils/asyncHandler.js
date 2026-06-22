@@ -1,12 +1,13 @@
 // Wrap async route handlers and forward errors to middleware.
 const asyncHandler = (requestHandler) => {
     return (req, res, next) => {
-        Promise.resolve(requestHandler(req, res, next))
-            .catch((err) => next(err))
-    }
-}
+        Promise.resolve(
+            requestHandler(req, res, next)
+        ).catch(next);
+    };
+};
 
-export {asyncHandler}
+export { asyncHandler };
 
 // Using Try Catch
 
