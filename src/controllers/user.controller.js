@@ -81,8 +81,8 @@ const registerUser = asyncHandler(async (req, res) => {
     // Step 6 & 7
     const user = await User.create({
         fullName,
-        avatar : avatar.url,
-        coverImage : coverImage.url || "",
+        avatar : avatar.secure_url,
+        coverImage : coverImage.secure_url || "",
         email,
         password,
         username : username.toLowerCase()
@@ -99,7 +99,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // Step 9
     return res.status(201).json(
-        new ApiResponse(200, newUser, "12356y")
+        new ApiResponse(200, newUser, "User Registered Successfully")
     )
 
 
@@ -168,15 +168,15 @@ const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
         {
-            $set : {
-                refreshToken : undefined
+            $unset : {
+                refreshToken : 1 // marks this field for removal
             }
         },
         {
             returnDocument: "after"
         }
     )
-
+``
     const options = {
         httpOnly : true,
         secure : true,
@@ -301,7 +301,7 @@ const updateUserAvatar = asyncHandler( async (res,req) => {
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
-    if(!avatar.url){
+    if(!avatar.secure_url){
         throw new ApiError(400, "Error while uploading Avatar")
     }
 
@@ -309,7 +309,7 @@ const updateUserAvatar = asyncHandler( async (res,req) => {
         req.user?._id,
         {
             $set :{
-                avatar : avatar.url,
+                avatar : avatar.secure_url,
             }
         },
         {
@@ -332,7 +332,7 @@ const updateUserCoverImage = asyncHandler( async (res,req) => {
 
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
-    if(!coverImage.url){
+    if(!coverImage.secure_url){
         throw new ApiError(400, "Error while uploading Cover Image")
     }
 
@@ -340,7 +340,7 @@ const updateUserCoverImage = asyncHandler( async (res,req) => {
         req.user?._id,
         {
             $set :{
-                coverImage : coverImage.url,
+                coverImage : coverImage.secure_url,
             }
         },
         {
