@@ -4,6 +4,9 @@ import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from '../utils/ApiResponse.js'
 import jwt from  "jsonwebtoken"
+import mongoose from "mongoose"
+import { Video } from '../models/video.model.js'
+
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -176,7 +179,6 @@ const logoutUser = asyncHandler(async (req, res) => {
             returnDocument: "after"
         }
     )
-``
     const options = {
         httpOnly : true,
         secure : true,
@@ -236,7 +238,7 @@ const refreshAccessToken = asyncHandler( async (req, res) =>{
 })
 
 const changeCurrentPassword = asyncHandler( async (req,res) => {
-    const { oldPassword , newPassword , confPassword} = req.body
+    const { oldPassword , newPassword , confPassword } = req.body
 
     if( !(newPassword === confPassword) ){
         throw new ApiError(400,"New and Confirm Password are not same")
@@ -260,18 +262,20 @@ const changeCurrentPassword = asyncHandler( async (req,res) => {
 
 })
 
-const getCurrentUser = asyncHandler( async (res,req) => {
+const getCurrentUser = asyncHandler( async (req,res) => {
     return res
     .status(200)
     .json( new ApiResponse(200, req.user, "Current sUser fetched Successfully"))
 })
 
 
-const updateAccDetails = asyncHandler( async (res,req)=> {
+const updateAccDetails = asyncHandler( async (req,res)=> {
     const { fullName , email } = req.body
 
-    if(!fullName || !email){
-        throw new ApiError(400, "All field are required")
+    // console.log(req.body)
+
+    if(!fullName && !email){
+        throw new ApiError(400, "A are required")
     }
 
     const user = await User.findByIdAndUpdate(
@@ -430,7 +434,7 @@ const getWatchHistory = asyncHandler( async(req,res) => {
     const user = await User.aggregate([
         {
             $match : {
-                _id : new mongoose.Types.ObjectId(req.user?._id)
+                _id : mongoose.Schema.Types.ObjectId(req.user?._id)
             }
         },
         {
