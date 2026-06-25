@@ -18,6 +18,8 @@ app.use(cookieParser())
 
 // Import and use the user routes.
 import userRouter from "./routes/user.routes.js";
+app.use("/api/v1/user" , userRouter);
+// http://localhost:5000/api/v1/user/
 
 // Health check endpoint
 app.get("/health", (req, res) => {
@@ -27,10 +29,10 @@ app.get("/health", (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
-
-// Use the user routes for both singular and plural base paths.
-app.use("/api/v1/user" , userRouter);
-// http://localhost:5000/api/v1/user/register
 // http://localhost:5000/health
+
+import videoRouter from "./routes/video.routes.js"
+app.use("/api/v1/videos", videoRouter)
+// http://localhost:5000/videos
 
 export { app }; 

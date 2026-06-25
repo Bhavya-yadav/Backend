@@ -15,3 +15,5 @@ const router = Router();
 router.use(verifyJWT)
 
 router.route("/").get(getAllVideos)
+
+export default router;
